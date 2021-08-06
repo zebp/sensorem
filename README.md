@@ -1,5 +1,13 @@
 # sensorem
 
+[![Crates.io][crates-badge]][crates-url]
+[![Unlicense][license-badge]][license-url]
+
+[crates-badge]: https://img.shields.io/crates/v/sensorem.svg
+[crates-url]: https://crates.io/crates/sensorem
+[license-badge]: https://img.shields.io/badge/license-Unlicense-blue.svg
+[license-url]: https://github.com/zebp/worker-kv/blob/master/LICENSE
+
 Colorful sensors!
 
 ## Features
