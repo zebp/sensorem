@@ -67,13 +67,13 @@ fn write_chip(chip: Chip, fmt: &mut dyn Write) -> anyhow::Result<()> {
         .collect();
 
     // Only display the sensors if we have some data to show.
-    if feature_pairs.len() > 0 {
-        write!(fmt, "{}\n", chip_name)?;
+    if !feature_pairs.is_empty() {
+        writeln!(fmt, "{}", chip_name)?;
 
         for (name, value) in feature_pairs {
             let color = color_for_temperature(value);
             let value_string = format!("{}°C", value).color(color);
-            write!(fmt, " {}: {}\n", name, value_string)?;
+            writeln!(fmt, " {}: {}", name, value_string)?;
         }
     }
 
@@ -96,13 +96,13 @@ fn color_for_temperature(input: f64) -> Color {
 /// Gets the name and current temperature value for a given feature sensor.
 fn temperature_pair_for_feature(feature: Feature) -> Option<(String, f64)> {
     let feature_name = feature.get_label().ok()?;
-    let feature_value = feature
-        .into_iter()
-        .filter_map(|subfeature| match subfeature.subfeature_type() {
-            SubfeatureType::SENSORS_SUBFEATURE_TEMP_INPUT => subfeature.get_value().ok(),
-            _ => None,
-        })
-        .next();
+    let feature_value =
+        feature
+            .into_iter()
+            .find_map(|subfeature| match subfeature.subfeature_type() {
+                SubfeatureType::SENSORS_SUBFEATURE_TEMP_INPUT => subfeature.get_value().ok(),
+                _ => None,
+            });
 
     feature_value.map(|x| (feature_name, x))
 }
