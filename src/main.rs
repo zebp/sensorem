@@ -2,6 +2,10 @@ use std::{io::Write, time::Duration};
 
 use clap::{App, Arg};
 use colored::{Color, Colorize};
+use crossterm::{
+    cursor::MoveTo,
+    terminal::{Clear, ClearType},
+};
 use sensors::*;
 
 fn main() {
@@ -29,7 +33,7 @@ fn main() {
 
         loop {
             // Clear the screen and go to the top left.
-            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
+            print!("{}{}", Clear(ClearType::All), MoveTo(0, 0));
 
             print_chips();
 
